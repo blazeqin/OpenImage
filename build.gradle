@@ -120,17 +120,17 @@ task bumpVersion() {
     }
 }
 
-def appVersionName = getAppVersionName()
-group = PROJ_GROUP
-version = appVersionName
-apply plugin: "io.github.gradle-nexus.publish-plugin"
-nexusPublishing {
-    repositories {
-        Nexus {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username = ossrhUsername // defaults to project.properties["myNexusUsername"]
-            password = ossrhPassword // defaults to project.properties["myNexusPassword"]
-        }
-    }
-}
+//def appVersionName = getAppVersionName()
+//group = PROJ_GROUP
+//version = appVersionName
+//apply plugin: "io.github.gradle-nexus.publish-plugin"
+//nexusPublishing {
+//    repositories {
+//        Nexus {
+//            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+//            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+//            username = ossrhUsername // defaults to project.properties["myNexusUsername"]
+//            password = ossrhPassword // defaults to project.properties["myNexusPassword"]
+//        }
+//    }
+//}
