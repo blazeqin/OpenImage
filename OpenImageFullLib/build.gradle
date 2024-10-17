@@ -1,7 +1,5 @@
 apply from: "$rootDir/gradle/lib.gradle"
 
-apply from: "$rootDir/gradle/publish.gradle"
-
 dependencies {
     api project(path: ':OpenImageGlideLib')
     //完整版引入
