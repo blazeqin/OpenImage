@@ -81,42 +81,42 @@ public class MsgRvAdapter extends RecyclerView.Adapter<MsgRvAdapter.MyHolder> {
                             }
                         }
                     })
-                    .setAutoScrollScanPosition(((MessageActivity)v.getContext()).openAutoScroll)
+//                    .setAutoScrollScanPosition(((MessageActivity)v.getContext()).openAutoScroll)
                     .setSrcImageViewScaleType(ImageView.ScaleType.CENTER_CROP,true)
                     .setImageUrlList(messageBeans).setWechatExitFillInEffect(((MessageActivity)v.getContext()).openWechatEffect)
                     .setOpenImageStyle(R.style.DefaultPhotosTheme)
                     .setShowDownload()
-                    .setOpenImageActivityCls(MessageVpActivity.class, new OnUpdateViewListener() {
-                        @Override
-                        public void onAdd(Collection<? extends OpenImageUrl> data, UpdateViewType updateViewType) {
-                            if (updateViewType == UpdateViewType.FORWARD){
-                                messageBeans.addAll(0, (Collection<? extends MessageBean>) data);
-                                notifyDataSetChanged();
-                            }else if (updateViewType == UpdateViewType.BACKWARD){
-                                messageBeans.addAll((Collection<? extends MessageBean>) data);
-                                notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onRemove(OpenImageUrl openImageUrl) {
-                            messageBeans.remove(openImageUrl);
-                            notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onReplace(int position,OpenImageUrl oldData, OpenImageUrl newData) {
-                            int index=0;
-                            for (MessageBean bean : messageBeans) {
-                                if (bean == oldData){
-                                    messageBeans.set(index, (MessageBean) newData);
-                                    notifyDataSetChanged();
-                                    return;
-                                }
-                                index++;
-                            }
-                        }
-                    })
+//                    .setOpenImageActivityCls(MessageVpActivity.class, new OnUpdateViewListener() {
+//                        @Override
+//                        public void onAdd(Collection<? extends OpenImageUrl> data, UpdateViewType updateViewType) {
+//                            if (updateViewType == UpdateViewType.FORWARD){
+//                                messageBeans.addAll(0, (Collection<? extends MessageBean>) data);
+//                                notifyDataSetChanged();
+//                            }else if (updateViewType == UpdateViewType.BACKWARD){
+//                                messageBeans.addAll((Collection<? extends MessageBean>) data);
+//                                notifyDataSetChanged();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onRemove(OpenImageUrl openImageUrl) {
+//                            messageBeans.remove(openImageUrl);
+//                            notifyDataSetChanged();
+//                        }
+//
+//                        @Override
+//                        public void onReplace(int position,OpenImageUrl oldData, OpenImageUrl newData) {
+//                            int index=0;
+//                            for (MessageBean bean : messageBeans) {
+//                                if (bean == oldData){
+//                                    messageBeans.set(index, (MessageBean) newData);
+//                                    notifyDataSetChanged();
+//                                    return;
+//                                }
+//                                index++;
+//                            }
+//                        }
+//                    })
                     .setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseInnerFragment fragment, OpenImageUrl openImageUrl, int position) {

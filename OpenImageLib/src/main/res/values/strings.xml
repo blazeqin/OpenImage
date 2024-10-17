@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download_start_toast">开始下载</string>
-    <string name="download_end_toast">成功保存到: %1$s</string>
-    <string name="download_error_toast">下载失败</string>
-    <string name="request_WRITE_EXTERNAL_STORAGE_permissions_fail">请打开存储权限</string>
+    <string name="download_start_toast">Download started</string>
+    <string name="download_end_toast">Successfully saved to: %1$s</string>
+    <string name="download_error_toast">Download failed</string>
+    <string name="request_WRITE_EXTERNAL_STORAGE_permissions_fail">Please enable storage permission</string>
 </resources>
