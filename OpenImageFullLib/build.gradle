@@ -3,6 +3,6 @@ apply from: "$rootDir/gradle/lib.gradle"
 dependencies {
     api project(path: ':OpenImageGlideLib')
     //完整版引入
-    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.6.0-release-jitpack'
-    api 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.6.0-release-jitpack'
+    implementation('com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.6.0-release-jitpack')
+    implementation('com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.6.0-release-jitpack')
 }
