@@ -19,7 +19,10 @@ import com.flyjingfish.openimage.imageloader.MyImageLoader;
 import com.flyjingfish.openimage.openImpl.FriendLayerFragmentCreateImpl;
 import com.flyjingfish.openimage.openImpl.FriendsVideoFragmentCreateImpl;
 import com.flyjingfish.openimage.openImpl.MyBigImageActivity;
+import com.flyjingfish.openimagelib.BaseInnerFragment;
 import com.flyjingfish.openimagelib.OpenImage;
+import com.flyjingfish.openimagelib.beans.OpenImageUrl;
+import com.flyjingfish.openimagelib.listener.OnItemClickListener;
 import com.flyjingfish.openimagelib.utils.ScreenUtils;
 
 import java.util.List;
@@ -77,9 +80,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<RvBaseHolder> {
         View.OnClickListener onClickListener = v -> OpenImage.with(holder.itemView.getContext()).setClickImageView(binding.ivImage)
                 .setSrcImageViewScaleType(ImageView.ScaleType.CENTER_CROP, true)
                 .setImageUrl(data)
-                .setVideoFragmentCreate(new FriendsVideoFragmentCreateImpl())
-                .setAutoScrollScanPosition(true)
-                .setUpperLayerFragmentCreate(new FriendLayerFragmentCreateImpl(),bundle,false,false)
+                .setWechatExitFillInEffect(true)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseInnerFragment fragment, OpenImageUrl openImageUrl, int position) {
+
+                    }
+                })
+//                .setVideoFragmentCreate(new FriendsVideoFragmentCreateImpl())
+//                .setAutoScrollScanPosition(true)
+//                .setUpperLayerFragmentCreate(new FriendLayerFragmentCreateImpl(),bundle,false,false)
                 .setOpenImageStyle(R.style.DefaultPhotosTheme)
                 .setClickPosition(0).show();
         binding.ivImage.setOnClickListener(onClickListener);
