@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.flyjingfish.openimagelib.BaseImageFragment;
+import com.flyjingfish.openimagelib.OpenImageActivity;
 import com.flyjingfish.openimagelib.photoview.PhotoView;
 import com.flyjingfish.openimagelib.widget.LoadingView;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -34,6 +35,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         rootView = inflater.inflate(R.layout.open_image_fragment_video,container,false);
         OpenImageVideoPlayer videoPlayer = rootView.findViewById(R.id.video_player);
         this.videoPlayer = videoPlayer;
+        videoPlayer.setLooping(true);
         smallImageView = videoPlayer.getSmallCoverImageView();
         photoImageView = videoPlayer.getCoverImageView();
         loadingView = (LoadingView) videoPlayer.getLoadingView();
@@ -117,6 +119,9 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         play();
     }
     private void play(){
+        if (getActivity() instanceof OpenImageActivity){
+            isTransitionEnd = ((OpenImageActivity)getActivity()).isTransitionEnd();
+        }
         if (isTransitionEnd && isLoadImageFinish && !isPlayed){
             if (!lazyPreload) {
                 startPlay();

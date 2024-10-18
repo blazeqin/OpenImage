@@ -408,7 +408,7 @@ class BaseActivity extends AppCompatActivity {
      *
      * @return 页面是否已经打开
      */
-    protected boolean isTransitionEnd(){
+    public boolean isTransitionEnd(){
         Boolean end = photosViewModel.transitionEndLiveData.getValue();
         return end != null?end:false;
     }

@@ -147,6 +147,8 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
         builder.setReleaseWhenLossAudio(false);
         builder.setCacheWithPlay(true);
         builder.setLooping(isLooping());
+        builder.setIsTouchWiget(false);
+        builder.setIsTouchWigetFull(false);
         return playUrl(builder);
     }
 
