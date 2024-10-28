@@ -18,7 +18,9 @@ import com.flyjingfish.openimage.imageloader.MyImageLoader;
 import com.flyjingfish.openimage.openImpl.MessageVpActivity;
 import com.flyjingfish.openimagelib.BaseInnerFragment;
 import com.flyjingfish.openimagelib.OpenImage;
+import com.flyjingfish.openimagelib.OpenImageActivity;
 import com.flyjingfish.openimagelib.beans.OpenImageUrl;
+import com.flyjingfish.openimagelib.enums.MediaType;
 import com.flyjingfish.openimagelib.enums.UpdateViewType;
 import com.flyjingfish.openimagelib.listener.OnItemClickListener;
 import com.flyjingfish.openimagelib.listener.OnItemLongClickListener;
@@ -120,7 +122,9 @@ public class MsgRvAdapter extends RecyclerView.Adapter<MsgRvAdapter.MyHolder> {
                     .setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseInnerFragment fragment, OpenImageUrl openImageUrl, int position) {
-
+                            if (openImageUrl.getType() == MediaType.IMAGE){
+                                ((OpenImageActivity)fragment.getActivity()).onTouchClose(0.2f);
+                            }
                         }
                     })
                     .setOnItemLongClickListener(new OnItemLongClickListener() {

@@ -1136,7 +1136,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
      *
      * @param isTouchClose 是否是拖动关闭
      */
-    protected void close(boolean isTouchClose) {
+    public void close(boolean isTouchClose) {
         if (isNoneClickView()) {
             if (onBackView != null) {
                 onBackView.onBack(showPosition);
