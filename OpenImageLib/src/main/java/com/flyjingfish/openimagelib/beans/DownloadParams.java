@@ -12,7 +12,7 @@ import com.flyjingfish.openimagelib.enums.MoreViewShowType;
 
 public class DownloadParams {
     @DrawableRes
-    private int downloadSrc = R.drawable.ic_open_image_download;
+    private int downloadSrc = R.drawable.ic_download;
     private ColorStateList percentColors;
     private boolean touchingHide = true;
     private FrameLayout.LayoutParams downloadLayoutParams;

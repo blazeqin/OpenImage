@@ -262,10 +262,10 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
                     if (videoFragmentCreate != null) {
                         fragment = videoFragmentCreate.createVideoFragment();
                         if (fragment == null) {
-                            throw new IllegalArgumentException(videoFragmentCreate.getClass().getName() + "请重写createVideoFragment");
+                            throw new IllegalArgumentException(videoFragmentCreate.getClass().getName() + "override createVideoFragment");
                         }
                     } else {
-                        throw new IllegalArgumentException("请设置视频播放器fragment --> https://github.com/FlyJingFish/OpenImage/wiki");
+                        throw new IllegalArgumentException("please set fragment --> https://github.com/FlyJingFish/OpenImage/wiki");
                     }
 
                 } else {
@@ -673,7 +673,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
             DownloadMediaHelper downloadMediaHelper = OpenImageConfig.getInstance().getDownloadMediaHelper();
             if (downloadMediaHelper == null) {
                 if (ImageLoadUtils.getInstance().isApkInDebug()) {
-                    throw new IllegalArgumentException("DownloadMediaHelper 不可为null 请调用 OpenImageConfig 的 setDownloadMediaHelper 来设置");
+                    throw new IllegalArgumentException("DownloadMediaHelper cannot null, use OpenImageConfig setDownloadMediaHelper");
                 }
                 return;
             }
@@ -689,15 +689,15 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
             }
             FrameLayout.LayoutParams downloadLayoutParams;
             if (downloadParams == null || downloadParams.getDownloadLayoutParams() == null) {
-                downloadLayoutParams = new FrameLayout.LayoutParams((int) ScreenUtils.dp2px(this, 24), (int) ScreenUtils.dp2px(this, 24));
-                downloadLayoutParams.gravity = Gravity.BOTTOM | Gravity.END;
-                downloadLayoutParams.setMarginEnd((int) ScreenUtils.dp2px(this, 14));
-                downloadLayoutParams.bottomMargin = (int) ScreenUtils.dp2px(this, 8);
+                downloadLayoutParams = new FrameLayout.LayoutParams((int) ScreenUtils.dp2px(this, 16), (int) ScreenUtils.dp2px(this, 16));
+                downloadLayoutParams.gravity = Gravity.TOP | Gravity.END;
+                downloadLayoutParams.setMarginEnd((int) ScreenUtils.dp2px(this, 16));
+                downloadLayoutParams.topMargin = (int) ScreenUtils.dp2px(this, 16) + ScreenUtils.getStatusBarHeight(this);
             } else {
                 downloadLayoutParams = downloadParams.getDownloadLayoutParams();
             }
             downloadImageView = new PercentImageView(this);
-            int downloadSrc = R.drawable.ic_open_image_download;
+            int downloadSrc = R.drawable.ic_download;
             if (downloadParams != null) {
                 downloadSrc = downloadParams.getDownloadSrc();
                 downloadTouchingHide = downloadParams.isTouchingHide();
@@ -776,7 +776,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
         DownloadMediaHelper downloadMediaHelper = OpenImageConfig.getInstance().getDownloadMediaHelper();
         if (downloadMediaHelper == null) {
             if (ImageLoadUtils.getInstance().isApkInDebug()) {
-                throw new IllegalArgumentException("DownloadMediaHelper 不可为null 请调用 OpenImageConfig 的 setDownloadMediaHelper 来设置");
+                throw new IllegalArgumentException("DownloadMediaHelper cannot null, use OpenImageConfig setDownloadMediaHelper");
             }
             return;
         }
@@ -1136,7 +1136,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
      *
      * @param isTouchClose 是否是拖动关闭
      */
-    public void close(boolean isTouchClose) {
+    protected void close(boolean isTouchClose) {
         if (isNoneClickView()) {
             if (onBackView != null) {
                 onBackView.onBack(showPosition);

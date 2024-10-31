@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,5 +47,10 @@ public class ImageFragment extends BaseImageFragment<LoadingView> {
     @Override
     protected void loadImageFinish(boolean isLoadImageSuccess) {
 
+    }
+
+    @Override
+    protected ImageView getBackView() {
+        return binding.back;
     }
 }
