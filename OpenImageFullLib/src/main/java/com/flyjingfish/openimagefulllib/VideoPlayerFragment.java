@@ -53,6 +53,9 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         videoPlayer.goneAllWidget();
         isPlayed = false;
         RecordPlayerPosition.INSTANCE.clearRecord(requireActivity());
+        videoPlayer.setOnClickListener(view1 -> {
+            videoPlayer.clickStartIcon();
+        });
     }
 
     @Override

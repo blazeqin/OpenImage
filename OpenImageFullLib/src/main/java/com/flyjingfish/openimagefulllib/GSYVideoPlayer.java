@@ -6,6 +6,8 @@ import android.media.AudioManager;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.flyjingfish.openimagelib.photoview.PhotoView;
+import com.flyjingfish.openimagelib.utils.ScreenUtils;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
@@ -36,6 +39,7 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     boolean isUserInput = false;
     protected OpenImageGSYVideoHelper gsyVideoHelper;
     private int mOldState;
+    private ImageView startIcon;
 
     public GSYVideoPlayer(Context context) {
         this(context, null);
@@ -101,6 +105,12 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         onAudioFocusChangeListener = EMPTY;
+        int dp3 = (int) ScreenUtils.dp2px(context,3.0f);
+        mProgressBar.setPadding(dp3,0,dp3,0);
+        startIcon = findViewById(R.id.startIcon);
+        startIcon.setOnClickListener(view -> {
+            clickStartIcon();
+        });
     }
 
     public void requestAudioFocus(){
@@ -206,6 +216,58 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
         }
     }
 
+    @Override
+    protected void hideAllWidget() {
+
+    }
+
+    @Override
+    protected void touchDoubleUp(MotionEvent e) {
+
+    }
+
+    @Override
+    protected void onClickUiToggle(MotionEvent e) {
+
+    }
+
+    @Override
+    protected void changeUiToClear() {
+    }
+
+    @Override
+    protected void changeUiToPlayingShow() {
+        super.changeUiToPlayingShow();
+        showStartIcon(false);
+    }
+
+    @Override
+    protected void changeUiToNormal() {
+        showStartIcon(false);
+    }
+
+    @Override
+    protected void changeUiToPauseShow() {
+        showStartIcon(true);
+    }
+
+    @Override
+    protected void changeUiToCompleteShow() {
+        super.changeUiToCompleteShow();
+        showStartIcon(true);
+    }
+
+    @Override
+    protected void changeUiToError() {
+        super.changeUiToError();
+        showStartIcon(true);
+    }
+
+    private void showStartIcon(boolean isShow) {
+        if (startIcon != null){
+            startIcon.setVisibility(isShow ? VISIBLE : GONE);
+        }
+    }
     @Override
     public void onSurfaceUpdated(Surface surface) {
         super.onSurfaceUpdated(surface);
