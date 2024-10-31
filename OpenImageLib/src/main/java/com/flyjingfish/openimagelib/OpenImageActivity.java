@@ -423,7 +423,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
             upperView.setVisibility(View.VISIBLE);
         }
         if (indicatorView != null) {
-            indicatorView.setVisibility(View.VISIBLE);
+            indicatorView.setVisibility(View.GONE);
         }
         if (downloadImageView != null) {
             if ((mediaType == MediaType.IMAGE && (downloadShowType == MoreViewShowType.IMAGE || downloadShowType == MoreViewShowType.BOTH))||(mediaType == MediaType.VIDEO && (downloadShowType == MoreViewShowType.VIDEO || downloadShowType == MoreViewShowType.BOTH))) {
@@ -580,7 +580,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
     }
 
     private void initIndicator(){
-        if (indicatorView != null){
+        if (true){
             return;
         }
         if (themeRes != 0) {

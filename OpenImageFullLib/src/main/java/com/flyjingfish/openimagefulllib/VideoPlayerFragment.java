@@ -28,6 +28,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
     protected PhotoView photoImageView;
     protected LoadingView loadingView;
     protected OpenImageGSYVideoHelper gsyVideoHelper;
+    protected boolean isPause = false;
 
     @Nullable
     @Override
@@ -35,7 +36,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         rootView = inflater.inflate(R.layout.open_image_fragment_video,container,false);
         OpenImageVideoPlayer videoPlayer = rootView.findViewById(R.id.video_player);
         this.videoPlayer = videoPlayer;
-        videoPlayer.setLooping(true);
+//        videoPlayer.setLooping(true);
         smallImageView = videoPlayer.getSmallCoverImageView();
         photoImageView = videoPlayer.getCoverImageView();
         loadingView = (LoadingView) videoPlayer.getLoadingView();
@@ -185,7 +186,15 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         super.onResume();
         if (playerKey != null) {
             GSYVideoController.resumeByKey(playerKey);
+            if (!isPause){
+                videoPlayer.getGSYVideoManager().seekTo(0);
+                videoPlayer.resetProgressAndTime();
+                if (!videoPlayer.getGSYVideoManager().isPlaying()){
+                    videoPlayer.onVideoResume(false);
+                }
+            }
         }
+        isPause = false;
     }
 
     @Override
@@ -195,6 +204,12 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
             GSYVideoController.pauseByKey(playerKey);
             RecordPlayerPosition.INSTANCE.setPlayPosition(requireActivity(),beanId,videoPlayer.getCurrentPositionWhenPlaying());
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isPause = true;
     }
 
     @Override

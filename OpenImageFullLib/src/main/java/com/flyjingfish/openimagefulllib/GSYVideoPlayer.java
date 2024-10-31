@@ -307,6 +307,11 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     @Override
+    public void resetProgressAndTime() {
+        super.resetProgressAndTime();
+    }
+
+    @Override
     public void onVideoResume(boolean seek) {
 //        super.onVideoResume(seek);
         mPauseBeforePrepared = false;

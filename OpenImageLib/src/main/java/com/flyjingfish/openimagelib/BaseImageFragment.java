@@ -20,6 +20,7 @@ import com.flyjingfish.openimagelib.listener.OnItemClickListener;
 import com.flyjingfish.openimagelib.listener.OnItemLongClickListener;
 import com.flyjingfish.openimagelib.listener.OnLoadBigImageListener;
 import com.flyjingfish.openimagelib.photoview.PhotoView;
+import com.flyjingfish.openimagelib.photoview.PhotoViewAttacher;
 import com.flyjingfish.openimagelib.utils.ScreenUtils;
 import com.flyjingfish.shapeimageviewlib.ShapeImageView;
 
@@ -333,6 +334,14 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
             },getViewLifecycleOwner());
         } else if (isTransitionEnd) {
             loadingView.setVisibility(isLoading?View.VISIBLE:View.GONE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (isTransitionEnd) {
+            photoView.setScale(photoView.getMinimumScale());
         }
     }
 

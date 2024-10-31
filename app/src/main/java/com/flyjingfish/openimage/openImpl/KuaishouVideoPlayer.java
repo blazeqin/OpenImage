@@ -196,7 +196,7 @@ public class KuaishouVideoPlayer extends OpenImageCoverVideoPlayer {
     }
 
     @Override
-    protected void resetProgressAndTime() {
+    public void resetProgressAndTime() {
         super.resetProgressAndTime();
         if (seekBar != null){
             seekBar.setProgress(0);
