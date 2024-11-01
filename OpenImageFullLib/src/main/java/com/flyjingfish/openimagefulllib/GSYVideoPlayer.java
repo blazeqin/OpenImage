@@ -108,9 +108,6 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
         int dp3 = (int) ScreenUtils.dp2px(context,3.0f);
         mProgressBar.setPadding(dp3,0,dp3,0);
         startIcon = findViewById(R.id.startIcon);
-        startIcon.setOnClickListener(view -> {
-            clickStartIcon();
-        });
     }
 
     public void requestAudioFocus(){
@@ -233,6 +230,30 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
 
     @Override
     protected void changeUiToClear() {
+    }
+
+    @Override
+    protected void startDismissControlViewTimer() {
+
+    }
+
+    @Override
+    protected void cancelDismissControlViewTimer() {
+
+    }
+
+    @Override
+    protected void startProgressTimer() {
+        super.startProgressTimer();
+    }
+
+    @Override
+    protected void cancelProgressTimer() {
+        super.cancelProgressTimer();
+    }
+
+    protected void setTouchingProgressBarFlag(boolean flag){
+        mTouchingProgressBar = flag;
     }
 
     @Override
@@ -371,6 +392,10 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     @Override
     public void resetProgressAndTime() {
         super.resetProgressAndTime();
+    }
+
+    public void setCurrentPosition(long position){
+        mCurrentPosition = position;
     }
 
     @Override

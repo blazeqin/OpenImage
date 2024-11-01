@@ -1,5 +1,7 @@
 package com.flyjingfish.openimagefulllib;
 
+import static com.shuyu.gsyvideoplayer.video.base.GSYVideoView.CURRENT_STATE_AUTO_COMPLETE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -193,14 +195,23 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
     @Override
     public void onResume() {
         super.onResume();
+        if (!isPause && videoPlayer.getCurrentState() == CURRENT_STATE_AUTO_COMPLETE){
+            videoPlayer.clickStartIcon();
+            videoPlayer.setTouchingProgressBarFlag(false);
+            return;
+        }
         if (playerKey != null) {
-            GSYVideoController.resumeByKey(playerKey);
             if (!isPause){
-                videoPlayer.getGSYVideoManager().seekTo(0);
+                videoPlayer.cancelProgressTimer();
                 videoPlayer.resetProgressAndTime();
+                videoPlayer.setCurrentPosition(0);
                 if (!videoPlayer.getGSYVideoManager().isPlaying()){
-                    videoPlayer.onVideoResume(false);
+                    videoPlayer.onVideoResume(true);
                 }
+                videoPlayer.setTouchingProgressBarFlag(false);
+                videoPlayer.startProgressTimer();
+            }else{
+                GSYVideoController.resumeByKey(playerKey);
             }
         }
         isPause = false;
