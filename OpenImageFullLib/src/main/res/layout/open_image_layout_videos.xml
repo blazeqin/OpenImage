@@ -52,7 +52,8 @@
             android:max="100"
             android:maxHeight="2dp"
             android:minHeight="2dp"
-            android:padding="3dp"
+            android:padding="4dp"
+            android:paddingVertical="8dp"
             android:layout_marginHorizontal="7dp"
             android:progressDrawable="@drawable/video_seek_progress"
             android:thumb="@drawable/video_seek_thumb" />
@@ -60,7 +61,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content">
 

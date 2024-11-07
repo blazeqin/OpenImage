@@ -105,7 +105,7 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         onAudioFocusChangeListener = EMPTY;
-        int dp3 = (int) ScreenUtils.dp2px(context,3.0f);
+        int dp3 = (int) ScreenUtils.dp2px(context,4.0f);
         mProgressBar.setPadding(dp3,0,dp3,0);
         startIcon = findViewById(R.id.startIcon);
     }
@@ -244,6 +244,10 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
 
     @Override
     protected void startProgressTimer() {
+        if (mCurrentState == CURRENT_STATE_PAUSE){
+            invisibleLoadingProgress();
+            return;
+        }
         super.startProgressTimer();
     }
 
@@ -287,8 +291,18 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     private void showStartIcon(boolean isShow) {
         if (startIcon != null){
             startIcon.setVisibility(isShow ? VISIBLE : GONE);
+            if (isShow ){
+                invisibleLoadingProgress();
+            }
         }
     }
+
+    private void invisibleLoadingProgress(){
+        if (mLoadingProgressBar != null){
+            mLoadingProgressBar.setVisibility(INVISIBLE);
+        }
+    }
+
     @Override
     public void onSurfaceUpdated(Surface surface) {
         super.onSurfaceUpdated(surface);
