@@ -105,8 +105,9 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         onAudioFocusChangeListener = EMPTY;
-        int dp3 = (int) ScreenUtils.dp2px(context,8.0f);
-        mProgressBar.setPadding(dp3,0,dp3,0);
+        int dp4 = (int) ScreenUtils.dp2px(context,4.0f);
+        int dp10 = (int) ScreenUtils.dp2px(context,10.0f);
+        mProgressBar.setPadding(dp4,dp10,dp4,dp10);
         startIcon = findViewById(R.id.startIcon);
     }
 
