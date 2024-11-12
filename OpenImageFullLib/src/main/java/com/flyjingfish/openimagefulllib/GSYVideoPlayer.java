@@ -269,6 +269,7 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
 
     @Override
     protected void changeUiToNormal() {
+        super.changeUiToNormal();
         showStartIcon(false);
     }
 
