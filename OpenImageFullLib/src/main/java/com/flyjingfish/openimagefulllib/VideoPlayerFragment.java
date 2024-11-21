@@ -52,7 +52,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         videoPlayer.setLifecycleOwner(getViewLifecycleOwner());
         setBackListener();
         playerKey = videoPlayer.getVideoKey();
-        videoPlayer.goneAllWidget();
+//        videoPlayer.goneAllWidget();
         isPlayed = false;
         RecordPlayerPosition.INSTANCE.clearRecord(requireActivity());
         videoPlayer.setOnClickListener(view1 -> {

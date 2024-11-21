@@ -105,9 +105,11 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         onAudioFocusChangeListener = EMPTY;
-        int dp4 = (int) ScreenUtils.dp2px(context,4.0f);
-        int dp10 = (int) ScreenUtils.dp2px(context,10.0f);
-        mProgressBar.setPadding(dp4,dp10,dp4,dp10);
+        if (mProgressBar != null){
+            int dp4 = (int) ScreenUtils.dp2px(context,4.0f);
+            int dp10 = (int) ScreenUtils.dp2px(context,10.0f);
+            mProgressBar.setPadding(dp4,dp10,dp4,dp10);
+        }
         startIcon = findViewById(R.id.startIcon);
     }
 
@@ -199,10 +201,27 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     public void goneAllWidget() {
-        hideAllWidget();
+        showStartIcon(false);
+        showBottomView(false);
+        showBackView(false);
+    }
+
+    protected void showBackView(boolean isShow){
+        if (mBackButton != null){
+            mBackButton.setVisibility(isShow ? VISIBLE : GONE);
+        }
+    }
+
+    protected void showBottomView(boolean isShow){
+        if (mBottomContainer != null){
+            mBottomContainer.setVisibility(isShow ? VISIBLE : INVISIBLE);
+        }
     }
 
     public void showAllWidget() {
+        showBackView(true);
+        showBottomView(true);
+        setTouchingProgressBarFlag(false);
         if (mCurrentState == CURRENT_STATE_NORMAL) {
             changeUiToNormal();
         } else if (mCurrentState == CURRENT_STATE_PAUSE) {
