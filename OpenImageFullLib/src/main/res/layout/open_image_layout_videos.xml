@@ -27,6 +27,7 @@
 
 
     <View
+        android:id="@+id/mask_bottom"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_00000000_4c000000_gradient"
@@ -99,6 +100,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/mask_top"
         android:layout_width="match_parent"
         android:background="@drawable/bg_33000000_00000000_gradient"
         android:layout_height="150dp"/>

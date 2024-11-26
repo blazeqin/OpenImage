@@ -40,6 +40,8 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     protected OpenImageGSYVideoHelper gsyVideoHelper;
     private int mOldState;
     private ImageView startIcon;
+    private View topMask;
+    private View bottomMask;
 
     public GSYVideoPlayer(Context context) {
         this(context, null);
@@ -111,6 +113,8 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
             mProgressBar.setPadding(dp4,dp10,dp4,dp10);
         }
         startIcon = findViewById(R.id.startIcon);
+        topMask = findViewById(R.id.mask_top);
+        bottomMask = findViewById(R.id.mask_bottom);
     }
 
     public void requestAudioFocus(){
@@ -204,6 +208,8 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
         showStartIcon(false);
         showBottomView(false);
         showBackView(false);
+        showMaskTop(false);
+        showMaskBottom(false);
     }
 
     protected void showBackView(boolean isShow){
@@ -219,6 +225,8 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     public void showAllWidget() {
+        showMaskTop(true);
+        showMaskBottom(true);
         showBackView(true);
         showBottomView(true);
         setTouchingProgressBarFlag(false);
@@ -315,6 +323,17 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
             if (isShow ){
                 invisibleLoadingProgress();
             }
+        }
+    }
+
+    private void showMaskTop(boolean isShow) {
+        if (topMask != null){
+            topMask.setVisibility(isShow ? VISIBLE : GONE);
+        }
+    }
+    private void showMaskBottom(boolean isShow) {
+        if (bottomMask != null){
+            bottomMask.setVisibility(isShow ? VISIBLE : GONE);
         }
     }
 
