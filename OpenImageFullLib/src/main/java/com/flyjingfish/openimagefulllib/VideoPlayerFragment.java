@@ -207,6 +207,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
                 videoPlayer.setTouchingProgressBarFlag(false);
                 videoPlayer.startProgressTimer();
             }else{
+                videoPlayer.setTouchingProgressBarFlag(false);
                 GSYVideoController.resumeByKey(playerKey);
             }
         }

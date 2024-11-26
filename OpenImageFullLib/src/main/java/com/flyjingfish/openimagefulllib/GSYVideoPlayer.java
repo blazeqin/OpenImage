@@ -338,6 +338,12 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
             return;
         }
         if (view == mLoadingProgressBar && visibility == VISIBLE){
+            view.setVisibility(INVISIBLE);
+            this.postDelayed(() -> {
+                if (mCurrentState == CURRENT_STATE_PLAYING_BUFFERING_START){
+                    view.setVisibility(visibility);
+                }
+            },2000);
             return;
         }
         if (view != null){

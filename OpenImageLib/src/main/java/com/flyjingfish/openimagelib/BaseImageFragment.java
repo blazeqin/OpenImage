@@ -60,7 +60,7 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
     protected abstract void loadImageFinish(boolean isLoadImageSuccess);
 
     protected void showLoading(T pbLoading) {
-        pbLoading.setVisibility(View.VISIBLE);
+//        pbLoading.setVisibility(View.VISIBLE);
         isLoading = true;
     }
 
@@ -358,7 +358,7 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
             setInitImageError();
         }
         if (isLoading) {
-            loadingView.setVisibility(View.VISIBLE);
+//            loadingView.setVisibility(View.VISIBLE);
         }
         ViewCompat.setTransitionName(photoView, "");
         ViewCompat.setTransitionName(smallCoverImageView, "");
