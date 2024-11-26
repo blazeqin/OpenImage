@@ -337,6 +337,9 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
         if (view == mThumbImageViewLayout && visibility != VISIBLE) {
             return;
         }
+        if (view == mLoadingProgressBar && visibility == VISIBLE){
+            return;
+        }
         if (view != null){
             LifecycleEventObserver observer = (LifecycleEventObserver) view.getTag(R.id.gsy_player_view_visibility);
             if (observer != null){
