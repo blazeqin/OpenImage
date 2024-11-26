@@ -49,28 +49,4 @@ public class ImageFragment extends BaseImageFragment<LoadingView> {
 
     }
 
-    @Override
-    protected ImageView getBackView() {
-        return binding.back;
-    }
-
-    @Override
-    protected void onTouchClose(float scale) {
-        super.onTouchClose(scale);
-        showBackView(false);
-    }
-
-    @Override
-    protected void onTouchScale(float scale) {
-        super.onTouchScale(scale);
-        showBackView(scale == 1);
-    }
-
-    protected void showBackView(boolean isShow){
-        if (isShow){
-            binding.back.setVisibility(View.VISIBLE);
-        }else {
-            binding.back.setVisibility(View.GONE);
-        }
-    }
 }

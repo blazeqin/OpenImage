@@ -80,10 +80,6 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         return loadingView;
     }
 
-    @Override
-    protected ImageView getBackView() {
-        return null;
-    }
 
     @Override
     protected void hideLoading(LoadingView pbLoading) {

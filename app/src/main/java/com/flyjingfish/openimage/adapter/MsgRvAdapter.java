@@ -88,6 +88,7 @@ public class MsgRvAdapter extends RecyclerView.Adapter<MsgRvAdapter.MyHolder> {
                     .setImageUrlList(messageBeans).setWechatExitFillInEffect(((MessageActivity)v.getContext()).openWechatEffect)
                     .setOpenImageStyle(R.style.DefaultPhotosTheme)
                     .setShowDownload()
+                    .setShowClose()
                     .setOpenImageActivityCls(MessageVpActivity.class, new OnUpdateViewListener() {
                         @Override
                         public void onAdd(Collection<? extends OpenImageUrl> data, UpdateViewType updateViewType) {

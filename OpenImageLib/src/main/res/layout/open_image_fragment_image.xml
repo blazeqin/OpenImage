@@ -21,11 +21,4 @@
         android:layout_height="40dp"
         android:layout_gravity="center"/>
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="16dp"
-        android:layout_gravity="top|start"
-        android:src="@drawable/ic_back_16" />
 </FrameLayout>

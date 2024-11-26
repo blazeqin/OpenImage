@@ -118,12 +118,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="16dp"
-            android:src="@drawable/ic_back_16" />
+
     </LinearLayout>
 
     <ImageView

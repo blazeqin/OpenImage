@@ -32,7 +32,6 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
     protected View clickableViewRootView;
     protected T loadingView;
     protected boolean shouldUseSmallCoverAnim;
-    protected ImageView backView;
 
     /**
      * @return 返回展示小图（封面图）的PhotoView
@@ -43,8 +42,6 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
      * @return 返回展示大图的PhotoView
      */
     protected abstract PhotoView getPhotoView();
-
-    protected abstract ImageView getBackView();
 
     /**
      * @return 返回用于点击的View，一般就是大图的PhotoView
@@ -82,15 +79,7 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
         smallCoverImageView = getSmallCoverImageView();
         photoView = getPhotoView();
         loadingView = getLoadingView();
-        backView = getBackView();
-        if (backView != null){
-            ViewGroup.LayoutParams params = backView.getLayoutParams();
-            if (params instanceof FrameLayout.LayoutParams) {
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) params;
-                layoutParams.topMargin = ScreenUtils.getStatusBarHeight(requireContext());
-                backView.setLayoutParams(layoutParams);
-            }
-        }
+
         clickableViewRootView = getItemClickableView();
         smallCoverImageView.setClickOpenImage(isInOpening());
         photoView.setClickOpenImage(isInOpening());

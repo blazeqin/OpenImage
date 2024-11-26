@@ -433,11 +433,7 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
             }
         }
         if (closeImageView != null) {
-            if ((mediaType == MediaType.IMAGE && (closeShowType == MoreViewShowType.IMAGE || closeShowType == MoreViewShowType.BOTH))||(mediaType == MediaType.VIDEO && (closeShowType == MoreViewShowType.VIDEO || closeShowType == MoreViewShowType.BOTH))) {
-                closeImageView.setVisibility(View.VISIBLE);
-            } else {
-                closeImageView.setVisibility(View.GONE);
-            }
+            closeImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -648,15 +644,15 @@ public abstract class OpenImageActivity extends BaseActivity implements TouchClo
             }
             FrameLayout.LayoutParams downloadLayoutParams;
             if (closeParams == null || closeParams.getCloseLayoutParams() == null) {
-                downloadLayoutParams = new FrameLayout.LayoutParams((int) ScreenUtils.dp2px(this, 24), (int) ScreenUtils.dp2px(this, 24));
-                downloadLayoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-                downloadLayoutParams.setMarginStart((int) ScreenUtils.dp2px(this, 14));
-                downloadLayoutParams.bottomMargin = (int) ScreenUtils.dp2px(this, 8);
+                downloadLayoutParams = new FrameLayout.LayoutParams((int) ScreenUtils.dp2px(this, 16), (int) ScreenUtils.dp2px(this, 16));
+                downloadLayoutParams.gravity = Gravity.TOP | Gravity.START;
+                downloadLayoutParams.setMarginStart((int) ScreenUtils.dp2px(this, 16));
+                downloadLayoutParams.topMargin = (int) ScreenUtils.dp2px(this, 16) + ScreenUtils.getStatusBarHeight(this);
             } else {
                 downloadLayoutParams = closeParams.getCloseLayoutParams();
             }
             closeImageView = new AppCompatImageView(this);
-            int downloadSrc = R.drawable.ic_open_image_close;
+            int downloadSrc = R.drawable.ic_back_16;
             if (closeParams != null) {
                 downloadSrc = closeParams.getCloseSrc();
                 closeTouchingHide = closeParams.isTouchingHide();
