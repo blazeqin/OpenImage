@@ -346,9 +346,9 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     @Override
     public void onSurfaceUpdated(Surface surface) {
         super.onSurfaceUpdated(surface);
-        if (mThumbImageViewLayout != null && mThumbImageViewLayout.getVisibility() == VISIBLE) {
-            mThumbImageViewLayout.setVisibility(INVISIBLE);
-        }
+//        if (mThumbImageViewLayout != null && mThumbImageViewLayout.getVisibility() == VISIBLE) {
+//            mThumbImageViewLayout.setVisibility(INVISIBLE);
+//        }
     }
 
     @Override
@@ -395,11 +395,12 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     @Override
     public void onSurfaceAvailable(Surface surface) {
         super.onSurfaceAvailable(surface);
-        if (GSYVideoType.getRenderType() != GSYVideoType.TEXTURE) {
-            if (mThumbImageViewLayout != null && mThumbImageViewLayout.getVisibility() == VISIBLE) {
-                mThumbImageViewLayout.setVisibility(INVISIBLE);
-            }
-        }
+        // 注释掉原来的逻辑，不在这里隐藏封面图
+        // if (GSYVideoType.getRenderType() != GSYVideoType.TEXTURE) {
+        //     if (mThumbImageViewLayout != null && mThumbImageViewLayout.getVisibility() == VISIBLE) {
+        //         mThumbImageViewLayout.setVisibility(INVISIBLE);
+        //     }
+        // }
     }
 
     @Override
