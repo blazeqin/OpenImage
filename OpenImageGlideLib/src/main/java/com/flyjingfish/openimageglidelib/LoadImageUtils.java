@@ -3,6 +3,7 @@ package com.flyjingfish.openimageglidelib;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -18,6 +19,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.flyjingfish.openimagelib.listener.OnLoadBigImageListener;
+import com.flyjingfish.openimagelib.utils.ExifHelper;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -54,26 +56,43 @@ public enum LoadImageUtils {
             cThreadPool.submit(() -> {
                 int[] size = BitmapUtils.getImageSize(context, imageUrl);
                 int[] maxImageSize = BitmapUtils.getMaxImageSize(size[0], size[1]);
+                ExifInterface exif = ExifHelper.getExifInterface(context,imageUrl);
+
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                int rotate = 0;
+                switch (orientation){
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotate = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotate = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotate = 270;
+                        break;
+                }
+                final int rotateFinal = rotate;
 
                 handler.post(() -> {
                     if (context instanceof LifecycleOwner){
                         LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
                         if (lifecycleOwner.getLifecycle().getCurrentState() != Lifecycle.State.DESTROYED){
-                            finishListener.onGoLoad(imageUrl,maxImageSize, false);
+                            finishListener.onGoLoad(imageUrl,maxImageSize, false,rotateFinal);
                         }
                     }else if (context instanceof Activity){
                         if (!((Activity) context).isFinishing() && !((Activity) context).isDestroyed()){
-                            finishListener.onGoLoad(imageUrl,maxImageSize, false);
+                            finishListener.onGoLoad(imageUrl,maxImageSize, false,rotateFinal);
                         }
                     }
                 });
             });
         } else {
             int[] maxImageSize = new int[]{Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL};
-            finishListener.onGoLoad(imageUrl,maxImageSize, true);
+            finishListener.onGoLoad(imageUrl,maxImageSize, true,0);
         }
 
     }
+
 
     void loadWebImage(Context context, String imageUrl, final OnLoadBigImageListener onLoadBigImageListener, OnLocalRealFinishListener finishListener){
         RequestOptions requestOptions = new RequestOptions()

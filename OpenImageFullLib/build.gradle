@@ -1,8 +1,15 @@
 apply from: "$rootDir/gradle/lib.gradle"
 
+apply plugin: "kotlin-parcelize"
+apply plugin: "kotlin-android"
+android {
+    namespace 'com.flyjingfish.openimagefulllib'
+}
+
 dependencies {
     api project(path: ':OpenImageGlideLib')
     //完整版引入
-    implementation('com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.6.0-release-jitpack')
-    implementation('com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.6.0-release-jitpack')
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-java:v10.0.0'
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-exo2:v10.0.0'
+    compileOnly 'androidx.viewpager2:viewpager2:1.0.0'
 }

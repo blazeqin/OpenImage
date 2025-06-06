@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.Observer;
 
-import com.flyjingfish.openimagelib.enums.MediaType;
 import com.flyjingfish.openimagelib.listener.OnItemClickListener;
 import com.flyjingfish.openimagelib.listener.OnItemLongClickListener;
 import com.flyjingfish.openimagelib.listener.OnLoadBigImageListener;
@@ -94,7 +93,7 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
             smallCoverImageView.setAutoCropHeightWidthRatio(autoAspectRadio);
             photoView.setAutoCropHeightWidthRatio(autoAspectRadio);
         }
-        photoView.setZoomable(imageDetail.getType() == MediaType.IMAGE);
+//        photoView.setZoomable(imageDetail.getType() == MediaType.IMAGE);
         photoView.setNoneClickView(isNoneClickView);
         smallCoverImageView.setNoneClickView(isNoneClickView);
         showLoading(loadingView);
@@ -261,6 +260,12 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
             int imageWidth = drawable.getIntrinsicWidth(), imageHeight = drawable.getIntrinsicHeight();
             if (shouldUseSmallCoverAnim) {
                 initCoverAnim(imageWidth, imageHeight, true);
+                Observer<Boolean> observer = aBoolean -> hideLoading(loadingView);
+                if (!isTransitionEnd){
+                    setTransitionEndListener(observer);
+                }else {
+                    observer.onChanged(true);
+                }
                 if (isTransitionEnd && coverAnim != null) {
                     coverAnim.start();
                 } else if (!isTransitionEnd) {
@@ -273,7 +278,7 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
                     isStartCoverAnim = true;
                 }
             } else {
-                Observer<Boolean> observer = (Observer<Boolean>) aBoolean -> {
+                Observer<Boolean> observer = aBoolean -> {
                     hideLoading(loadingView);
                     smallCoverImageView.setVisibility(View.GONE);
                     smallCoverImageView.setAlpha(0f);
@@ -398,7 +403,6 @@ public abstract class BaseImageFragment<T extends View> extends BaseFragment {
             photoView.setAlpha(1f);
         }
 
-        hideLoading(loadingView);
     }
 
     protected void createCoverAnim(int imageWidth, int imageHeight, final boolean isLoadImageSuccess) {

@@ -10,7 +10,7 @@
 
 **[推荐一个库 AndroidAOP 一个注解就可请求权限，禁止多点，切换线程等等](https://github.com/FlyJingFish/AndroidAOP)**
 
-## [点此下载apk,也可扫下边二维码下载](https://github.com/FlyJingFish/OpenImage/blob/master/apk/release/app-release.apk?raw=true)
+## [点此下载apk,也可扫下边二维码下载](https://github.com/FlyJingFish/OpenImage/blob/master/apk/coil2/release/app-coil2-release.apk?raw=true)
 
 <img src="/screenshot/download_qrcode.png" alt="show" width="200px" />
 
@@ -51,7 +51,9 @@ RecyclerView场景  | 聊天页面 | 打开视频
 
 11、支持显示超大图及放大后的清晰细节图
 
-12、支持自定义大图切换效果（PageTransformer）
+12、支持视频缩放拖动功能、图片缩放拖动功能
+
+13、支持自定义大图切换效果（PageTransformer）
 
 ## 前言
 
@@ -81,24 +83,24 @@ allprojects {
 
 #### A、直接引入完整版（同时支持查看图片和视频）
 
-请注意如果使用以下导入方式，如果你的项目组存在[GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)请升级至 **8.3.3** 或者更高的版本，否则会冲突
+请注意如果使用以下导入方式，如果你的项目组存在[GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)请升级至 **10.0.0**（从2.3.0开始升级至 10.0.0，之前是8.3.0，并且需要升级AGP到8.1.1以上） 或者更高的版本，否则会冲突
 
 - 使用 Glide 作为图片加载器，如果你的项目组存在[Glide](https://github.com/bumptech/glide)请升级至 **4.12.0** 或者更高的版本，否则会冲突
 
 ```gradle
 //OpenImageFullLib 默认已经包含了OpenImageGlideLib
-implementation 'io.github.FlyJingFish.OpenImage:OpenImageFullLib:2.2.7'
+implementation 'io.github.FlyJingFish.OpenImage:OpenImageFullLib:2.4.2'
 ```
 
 - 使用 Coil 作为图片加载器，如果你的项目组存在[Coil](https://github.com/coil-kt/coil)请升级至 **2.4.0** 或者更高的版本，否则会冲突
 
 ```gradle
 //OpenImageFullLib 因为已经包含了 OpenImageGlideLib，所以需要排除掉 OpenImageGlideLib，否则会同时存在 Glide 和 Coil
-implementation ('io.github.FlyJingFish.OpenImage:OpenImageFullLib:2.2.7'){
+implementation ('io.github.FlyJingFish.OpenImage:OpenImageFullLib:2.4.2'){
     exclude module: 'OpenImageGlideLib'
 }
 //OpenImageCoilLib 引入Coil（2.4.0）图片引擎
-implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.2.7'
+implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.4.2'
 ```
 
 #### B、引入只带有图片引擎的版本（只支持查看图片）
@@ -109,14 +111,14 @@ implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.2.7'
 
 ```gradle
 //OpenImageGlideLib 引入Glide（4.12.0）图片引擎,没有引入视频播放器；如需定制视频播放功能，详细看Wiki文档，如果不想定制可直接使用上边的库
-implementation 'io.github.FlyJingFish.OpenImage:OpenImageGlideLib:2.2.7'
+implementation 'io.github.FlyJingFish.OpenImage:OpenImageGlideLib:2.4.2'
 ```
 
 - 使用 Coil 作为图片加载器，如果你的项目组存在[Coil](https://github.com/coil-kt/coil)请升级至 **2.4.0** 或者更高的版本，否则会冲突
 
 ```gradle
 //OpenImageCoilLib 引入Coil（2.4.0）图片引擎,没有引入视频播放器；如需定制视频播放功能，详细看Wiki文档，如果不想定制可直接使用上边的库
-implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.2.7'
+implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.4.2'
 ```
 
 #### C、引入基础版本（不可以直接查看图片和视频，完全需要自定义）
@@ -126,7 +128,7 @@ implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.2.7'
 ```gradle
 //OpenImageLib 是基础库，没有引入图片引擎和视频播放器
 //至少需要实现BigImageHelper来定制您的图片引擎，如需定制视频播放功能，详细看Wiki文档
-implementation 'io.github.FlyJingFish.OpenImage:OpenImageLib:2.2.7'
+implementation 'io.github.FlyJingFish.OpenImage:OpenImageLib:2.4.2'
 
 ```
 
@@ -682,7 +684,7 @@ Coil 混淆规则，遵循 [Coroutines](https://github.com/Kotlin/kotlinx.corout
 ```
 
 ### 版本限制
-最低SDK版本：minSdkVersion >= 21
+最低SDK版本：minSdkVersion >= 22
  
  
 ### 常见问题

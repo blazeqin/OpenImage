@@ -36,7 +36,9 @@ import com.flyjingfish.openimagelib.R;
 import com.flyjingfish.shapeimageviewlib.ShapeImageView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The component of {@link PhotoView} which does the work allowing for zooming, scaling, panning, etc.
@@ -79,6 +81,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     // Listeners
     private OnMatrixChangedListener mMatrixChangeListener;
+    private final List<OnMatrixChangedListener> mMatrixChangeListeners = new ArrayList<>();
     private OnPhotoTapListener mPhotoTapListener;
     private OnOutsidePhotoTapListener mOutsidePhotoTapListener;
     private OnViewTapListener mViewTapListener;
@@ -225,8 +228,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         ViewParent viewParent = view.getParent();
         if (viewParent instanceof ViewPager2){
             return (ViewPager2) viewParent;
-        }else {
+        }else if (viewParent instanceof View){
             return findViewPager2((View) viewParent);
+        }else {
+            return null;
         }
     }
     private static class MyOnPageChangeCallback extends ViewPager2.OnPageChangeCallback{
@@ -674,6 +679,12 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         mMatrixChangeListener = listener;
     }
 
+    public void addOnMatrixChangeListener(OnMatrixChangedListener listener) {
+        mMatrixChangeListeners.add(listener);
+    }
+    public void removeOnMatrixChangeListener(OnMatrixChangedListener listener) {
+        mMatrixChangeListeners.remove(listener);
+    }
     public void setOnPhotoTapListener(OnPhotoTapListener listener) {
         mPhotoTapListener = listener;
     }
@@ -715,6 +726,13 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             mBigImageMatrix.setScale(scale, scale, focalX, focalY);
             checkAndDisplayMatrix();
         }
+    }
+
+
+    public void syncMatrixValue(float[] values) {
+        mSuppMatrix.setValues(values);
+        mBigImageMatrix.setValues(values);
+        checkAndDisplayMatrix();
     }
 
     /**
@@ -812,6 +830,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         return mMatrixValues[whichValue];
     }
 
+    public float[] getMatrixValues() {
+        mSuppMatrix.getValues(mMatrixValues);
+        return mMatrixValues;
+    }
     /**
      * Resets the Matrix back to FIT_CENTER, and then displays its contents
      */
@@ -866,10 +888,19 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private void setImageViewMatrix(Matrix matrix) {
         mImageView.setImageMatrix(matrix);
         // Call MatrixChangedListener if needed
-        if (mMatrixChangeListener != null) {
+        List<OnMatrixChangedListener> listeners = new ArrayList<>();
+        if (mMatrixChangeListener != null){
+            listeners.add(mMatrixChangeListener);
+        }
+        if (!mMatrixChangeListeners.isEmpty()){
+            listeners.addAll(mMatrixChangeListeners);
+        }
+        if (!listeners.isEmpty()) {
             RectF displayRect = getDisplayRect(matrix);
             if (displayRect != null) {
-                mMatrixChangeListener.onMatrixChanged(displayRect);
+                for (OnMatrixChangedListener listener : listeners) {
+                    listener.onMatrixChanged(displayRect);
+                }
             }
         }
     }
@@ -922,6 +953,12 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     public void setNoneClickView(boolean noneClickView) {
         isNoneClickView = noneClickView;
+    }
+
+    private OnChangedListener onChangedListener;
+
+    public void setOnChangedListener(OnChangedListener onChangedListener) {
+        this.onChangedListener = onChangedListener;
     }
 
     /**
@@ -1231,7 +1268,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
         }
         resetMatrix();
-
+        if (onChangedListener != null && !isExitMode){
+            onChangedListener.onChanged();
+        }
     }
 
 

@@ -37,7 +37,7 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.open_image_fragment_video,container,false);
-        OpenImageVideoPlayer videoPlayer = rootView.findViewById(R.id.video_player);
+        OpenImageCoverVideoPlayer videoPlayer = rootView.findViewById(R.id.video_player);
         this.videoPlayer = videoPlayer;
 //        videoPlayer.setLooping(true);
         smallImageView = videoPlayer.getSmallCoverImageView();
@@ -253,5 +253,13 @@ public class VideoPlayerFragment extends BaseImageFragment<LoadingView> {
         if (videoPlayer.getBackButton() != null){
             videoPlayer.getBackButton().setOnClickListener(v -> close());
         }
+    }
+
+    @Override
+    public View getExitImageView() {
+        if (videoPlayer instanceof ScaleOpenImageVideoPlayer scaleOpenImageVideoPlayer){
+            scaleOpenImageVideoPlayer.getAttacher().setExitMode(true);
+        }
+        return super.getExitImageView();
     }
 }

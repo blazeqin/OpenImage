@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 import com.danikula.videocache.StorageUtils;
@@ -18,13 +20,24 @@ import com.flyjingfish.openimage.openImpl.AppDownloadFileHelper;
 import com.flyjingfish.openimage.openImpl.AppGlideBigImageHelper;
 import com.flyjingfish.openimage.openImpl.PicassoDownloader;
 import com.flyjingfish.openimage.openImpl.PicassoLoader;
+import com.flyjingfish.openimage.utils.GlideEngine;
+import com.flyjingfish.openimagecoillib.Coil3BigImageHelper;
+import com.flyjingfish.openimagecoillib.Coil3DownloadMediaHelper;
 import com.flyjingfish.openimagecoillib.CoilBigImageHelper;
 import com.flyjingfish.openimagecoillib.CoilDownloadMediaHelper;
 import com.flyjingfish.openimagefulllib.FullGlideDownloadMediaHelper;
 import com.flyjingfish.openimageglidelib.GlideBigImageHelper;
 import com.flyjingfish.openimageglidelib.GlideDownloadMediaHelper;
+import com.flyjingfish.openimagelib.OpenImage;
 import com.flyjingfish.openimagelib.OpenImageConfig;
+import com.flyjingfish.openimagelib.enums.MediaType;
+import com.flyjingfish.openimagelib.transformers.ScaleInTransformer;
 import com.flyjingfish.openimagelib.utils.ActivityCompatHelper;
+import com.luck.picture.lib.basic.PictureSelector;
+import com.luck.picture.lib.config.SelectMimeType;
+import com.luck.picture.lib.config.SelectModeConfig;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
@@ -32,8 +45,11 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import coil.Coil;
+import coil3.SingletonImageLoaders_androidKt;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
@@ -52,7 +68,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private final Handler handler = new Handler(Looper.getMainLooper());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +97,22 @@ public class MainActivity extends BaseActivity {
                 FullGlideDownloadMediaHelper.getInstance().setDefaultDownloadMediaHelper(new GlideDownloadMediaHelper());
                 OpenImageConfig.getInstance().setBigImageHelper(new GlideBigImageHelper());
             }else if (MyImageLoader.loader_os_type == MyImageLoader.COIL){
+                boolean isCoil3;
+                try {
+                    SingletonImageLoaders_androidKt.getImageLoader(this);
+                    isCoil3 = true;
+                } catch (NoClassDefFoundError e) {
+                    isCoil3 = false;
+                }
                 OpenImageConfig.getInstance().setDownloadMediaHelper(FullGlideDownloadMediaHelper.getInstance());
-                FullGlideDownloadMediaHelper.getInstance().setDefaultDownloadMediaHelper(new CoilDownloadMediaHelper());
-                OpenImageConfig.getInstance().setBigImageHelper(new CoilBigImageHelper());
+                if (isCoil3){
+                    FullGlideDownloadMediaHelper.getInstance().setDefaultDownloadMediaHelper(new Coil3DownloadMediaHelper());
+                    OpenImageConfig.getInstance().setBigImageHelper(new Coil3BigImageHelper());
+                }else {
+                    FullGlideDownloadMediaHelper.getInstance().setDefaultDownloadMediaHelper(new CoilDownloadMediaHelper());
+                    OpenImageConfig.getInstance().setBigImageHelper(new CoilBigImageHelper());
+                }
+
             }else {
                 OpenImageConfig.getInstance().setDownloadMediaHelper(new AppDownloadFileHelper());
                 OpenImageConfig.getInstance().setBigImageHelper(new AppGlideBigImageHelper());
@@ -122,6 +150,39 @@ public class MainActivity extends BaseActivity {
         binding.btnMemoryTest.setVisibility(ActivityCompatHelper.isApkInDebug(this)?View.VISIBLE:View.GONE);
         binding.btnPhotoView.setOnClickListener(v -> jump(v, PhotoViewActivity.class));
         binding.btnPhotoView.setVisibility(ActivityCompatHelper.isApkInDebug(this)?View.VISIBLE:View.GONE);
+        binding.btnGetVideo.setOnClickListener(v -> {
+            PictureSelector.create(this)
+                    .openGallery(SelectMimeType.ofVideo())
+                    .setImageEngine(GlideEngine.createGlideEngine())
+                    .isDisplayCamera(true)
+                    .isPreviewImage(false)
+                    .isDirectReturnSingle(true)
+                    .setSelectionMode(SelectModeConfig.SINGLE)
+                    .forResult(new OnResultCallbackListener<LocalMedia>() {
+                        @Override
+                        public void onResult(ArrayList<LocalMedia> result) {
+                            File file = new File(result.get(0).getRealPath());
+                            List<String> list = new ArrayList<>();
+                            list.add(file.getAbsolutePath());
+                            OpenImage.with(MainActivity.this)
+                                    .setNoneClickView()
+                                    .setShowSrcImageView(true)
+                                    .setAutoScrollScanPosition(true)
+                                    .setSrcImageViewScaleType(ImageView.ScaleType.CENTER_CROP, true)
+                                    .setImageUrlList(list, MediaType.VIDEO).addPageTransformer(new ScaleInTransformer())
+                                    .setOpenImageStyle(R.style.DefaultPhotosTheme)
+                                    .setWechatExitFillInEffect(true)
+                                    .setClickPosition(0).show();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+        });
+
+
     }
 
     private void jump(View v, Class<?> cls) {
@@ -137,18 +198,35 @@ public class MainActivity extends BaseActivity {
     }
 
     private void clearCache() {
-
+        boolean isCoil3;
         try {
-            Coil.imageLoader(this).getMemoryCache().clear();
+            SingletonImageLoaders_androidKt.getImageLoader(this);
+            isCoil3 = true;
+        } catch (NoClassDefFoundError e) {
+            isCoil3 = false;
+        }
+        try {
+            if (isCoil3){
+                SingletonImageLoaders_androidKt.getImageLoader(this).getMemoryCache().clear();
+            }else {
+                Coil.imageLoader(this).getMemoryCache().clear();
+            }
         } catch (Exception e) {
         }
+
         Glide.get(MainActivity.this).clearMemory();
         clearPicassoMemory();
+        boolean finalIsCoil3 = isCoil3;
         MyApplication.cThreadPool.submit(() -> {
             try {
-                Coil.imageLoader(this).getDiskCache().clear();
+                if (finalIsCoil3){
+                    SingletonImageLoaders_androidKt.getImageLoader(this).getDiskCache().clear();
+                }else {
+                    Coil.imageLoader(this).getDiskCache().clear();
+                }
             } catch (Exception e) {
             }
+
             Glide.get(MainActivity.this).clearDiskCache();
             clearPicassoCache();
             clearPicassoVideoCache();

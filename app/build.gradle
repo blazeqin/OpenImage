@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.flyjingfish.openimage"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion rootProject.ext.minSdk
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
@@ -20,8 +20,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
 //    kotlinOptions {
@@ -35,7 +35,15 @@ android {
             keyPassword '123456'
         }
     }
-
+    flavorDimensions "env"
+    productFlavors {
+        coil2 {
+            dimension "env"
+        }
+        coil3 {
+            dimension "env"
+        }
+    }
     buildTypes {
         debug {
             minifyEnabled false
@@ -49,6 +57,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'com.flyjingfish.openimage'
 }
 configurations.all {
     resolutionStrategy {
@@ -73,7 +82,7 @@ dependencies {
     //glide
     def GLIDE_VERSION = "4.14.2"
     annotationProcessor "com.github.bumptech.glide:compiler:${GLIDE_VERSION}"
-    implementation 'jp.wasabeef:glide-transformations:4.2.0'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
@@ -87,21 +96,53 @@ dependencies {
 
     // 依赖androidx, 已升级AndroidX的项目集成下面的依赖
     implementation "com.bytedance.tools.codelocator:codelocator-core:2.0.0"
-    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+    implementation 'com.github.tbruyelle:RxPermissions:v0.12'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation("io.coil-kt:coil-gif:2.4.0")
     implementation 'com.github.FlyJingFish:SwitchKeyboard:1.2.2'
     implementation 'com.github.FlyJingFish:TitleBar:1.2.8'
 
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:annotations:4.12.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.12.0'
+//    if (TestCoil == "3"){
+//        compileOnly "io.coil-kt:coil:2.4.0"
+//        compileOnly "io.coil-kt:coil-gif:2.4.0"
+//        implementation("io.coil-kt.coil3:coil:3.0.3")
+//        implementation("io.coil-kt.coil3:coil-gif:3.0.3")
+//        implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
+//    }else {
+//        implementation "io.coil-kt:coil:2.4.0"
+//        implementation "io.coil-kt:coil-gif:2.4.0"
+//        compileOnly("io.coil-kt.coil3:coil:3.0.3")
+//        compileOnly("io.coil-kt.coil3:coil-gif:3.0.3")
+//        compileOnly("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
+//    }
+
+    coil2Implementation "io.coil-kt:coil:2.4.0"
+    coil2Implementation "io.coil-kt:coil-gif:2.4.0"
+
+    coil3Implementation("io.coil-kt.coil3:coil:3.0.3")
+    coil3Implementation("io.coil-kt.coil3:coil-gif:3.0.3")
+    coil3Implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
+
+    compileOnly "io.coil-kt:coil:2.4.0"
+    compileOnly "io.coil-kt:coil-gif:2.4.0"
+    compileOnly("io.coil-kt.coil3:coil:3.0.3")
+    compileOnly("io.coil-kt.coil3:coil-gif:3.0.3")
+    compileOnly("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
+
+
     if (TestType == "0"){
         implementation project(path: ':OpenImageFullLib')
-        implementation project(path: ':OpenImageCoilLib')
+//        implementation project(path: ':OpenImageCoilLib')
     }else if (TestType == "1"){
         implementation 'io.github.FlyJingFish.OpenImage:OpenImageFullLib:'+TestVersion
-        implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:'+TestVersion
     }
-    implementation('com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.6.0-release-jitpack')
-    implementation('com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.6.0-release-jitpack')
+    implementation 'io.github.FlyJingFish.OpenImage:OpenImageCoilLib:2.4.2'
+
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-java:v10.0.0'
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-exo2:v10.0.0'
+    implementation 'io.github.lucksiege:pictureselector:v3.11.2'
 }

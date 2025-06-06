@@ -1,18 +1,15 @@
 package com.flyjingfish.openimagefulllib;
 
-
 import static androidx.media3.exoplayer.DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER;
 
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.LoadControl;
 
 import com.shuyu.gsyvideoplayer.GSYVideoBaseManager;
 import com.shuyu.gsyvideoplayer.player.IPlayerManager;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.IjkExo2MediaPlayer;
@@ -32,7 +29,7 @@ public class GSYVideoPlayerManager extends GSYVideoBaseManager {
         return exo2PlayerManager;
     }
 
-    @Override
+    @OptIn(markerClass = UnstableApi.class) @Override
     public void setNeedMute(boolean needMute) {
         super.setNeedMute(needMute);
         IMediaPlayer iMediaPlayer;

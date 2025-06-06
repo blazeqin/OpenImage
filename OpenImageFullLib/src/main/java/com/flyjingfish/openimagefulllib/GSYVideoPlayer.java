@@ -25,6 +25,8 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class GSYVideoPlayer extends StandardGSYVideoPlayer {
@@ -534,5 +536,31 @@ public class GSYVideoPlayer extends StandardGSYVideoPlayer {
     public void setShowType(int showType) {
         this.showType = showType;
         GSYVideoType.setShowType(showType);
+    }
+
+    @Override
+    public void onVideoSizeChanged() {
+        super.onVideoSizeChanged();
+        for (OnVideoSizeChangedListener onVideoSizeChangedListener : onVideoSizeChangedListeners) {
+            onVideoSizeChangedListener.onVideoSizeChanged(getCurrentVideoWidth(),getCurrentVideoHeight());
+        }
+    }
+
+    public interface OnVideoSizeChangedListener{
+        void onVideoSizeChanged(int width, int height);
+    }
+
+    private final List<OnVideoSizeChangedListener> onVideoSizeChangedListeners = new ArrayList<>();
+
+    public void addOnVideoSizeChangedListener(OnVideoSizeChangedListener onVideoSizeChangedListener) {
+        this.onVideoSizeChangedListeners.add(onVideoSizeChangedListener);
+    }
+
+    public void removeOnVideoSizeChangedListener(OnVideoSizeChangedListener onVideoSizeChangedListener) {
+        this.onVideoSizeChangedListeners.remove(onVideoSizeChangedListener);
+    }
+
+    public boolean isShowingThumb(){
+        return mThumbImageViewLayout != null && mThumbImageViewLayout.getVisibility() == VISIBLE;
     }
 }

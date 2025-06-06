@@ -1,50 +1,69 @@
-package com.flyjingfish.openimagecoillib;
+package com.flyjingfish.openimagecoillib
 
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.database.Cursor
+import android.net.Uri
+import coil3.imageLoader
+import com.flyjingfish.openimagelib.OpenImageConfig
+import com.flyjingfish.openimagelib.utils.OpenImageLogUtils
 
-import com.flyjingfish.openimagelib.OpenImageConfig;
-import com.flyjingfish.openimagelib.utils.OpenImageLogUtils;
-
-public class OpenImageCoilInitProvider extends ContentProvider {
-    @Override
-    public boolean onCreate() {
-        OpenImageLogUtils.init(getContext().getApplicationContext());
+class OpenImageCoilInitProvider : ContentProvider() {
+    override fun onCreate(): Boolean {
+        OpenImageLogUtils.init(context!!.applicationContext)
+        val isCoil3: Boolean = try {
+            val imageLoader = context!!.imageLoader
+            true
+        } catch (e: NoClassDefFoundError) {
+            false
+        }
         //初始化大图加载器
-        if (OpenImageConfig.getInstance().getBigImageHelper() == null){
-            OpenImageConfig.getInstance().setBigImageHelper(new CoilBigImageHelper());
+        if (OpenImageConfig.getInstance().bigImageHelper == null) {
+            if (isCoil3){
+                OpenImageConfig.getInstance().bigImageHelper = Coil3BigImageHelper()
+            }else{
+                OpenImageConfig.getInstance().bigImageHelper = CoilBigImageHelper()
+            }
         }
         //初始化下载原图或视频类
-        if (OpenImageConfig.getInstance().getDownloadMediaHelper() == null){
-            OpenImageConfig.getInstance().setDownloadMediaHelper(new CoilDownloadMediaHelper());
+        if (OpenImageConfig.getInstance().downloadMediaHelper == null) {
+            if (isCoil3){
+                OpenImageConfig.getInstance().downloadMediaHelper = Coil3DownloadMediaHelper()
+            }else{
+                OpenImageConfig.getInstance().downloadMediaHelper = CoilDownloadMediaHelper()
+            }
         }
-        return true;
+        return true
     }
 
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+    override fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor? {
+        return null
     }
 
-    @Override
-    public String getType(Uri uri) {
-        return null;
+    override fun getType(uri: Uri): String? {
+        return null
     }
 
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        return null;
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        return null
     }
 
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        return 0
     }
 
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Int {
+        return 0
     }
 }

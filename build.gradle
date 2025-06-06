@@ -1,56 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    ext.kotlin_version = '1.8.0'
-    ext.maven_nexus_name = '1254'
-    repositories {
-        google()
-//        if (TestType == "0"){
-//            mavenLocal()
-//        }else
-        if (TestType == "1"){
-            maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-"+SonatypeTestCode }
-        }
-        mavenCentral()
-        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
-        maven { url 'https://jitpack.io' }
-        maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-$maven_nexus_name" }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.github.gradle-nexus:publish-plugin:2.0.0-rc-1"
-
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-allprojects {
-    repositories {
-        google()
-//        if (TestType == "0"){
-//            mavenLocal()
-//        }else
-        if (TestType == "1"){
-            maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-"+SonatypeTestCode }
-        }
-        mavenCentral()
-        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
-        maven { url 'https://jitpack.io' }
-        maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-$maven_nexus_name" }
-    }
-}
-task clean(type: Delete) {
-    delete rootProject.buildDir
+plugins {
+    id 'com.android.application' version '8.1.1' apply false
+    id 'com.android.library' version '8.1.1' apply false
+    id 'org.jetbrains.kotlin.android' version '2.0.0' apply false
+    id 'org.jetbrains.kotlin.jvm' version '2.0.0' apply false
 }
 
 ext {
-    sdkVersion = 31
-    minSdkVersion = 21
+    compileSdk = 34
+    targetSdk = 31
+    minSdk = 22
 }
 
 def synchronized getVersionProperty(propName, defValue) {
@@ -91,7 +50,7 @@ def getAppVersionCode() {
     return Integer.parseInt(updateVersionString)
 }
 
-task bumpVersion() {
+task aaBumpVersion() {
     doLast {
         def versionName = getAppVersionCode() + 1
         def str = versionName.toString()
@@ -116,6 +75,13 @@ task bumpVersion() {
         String text = exportText.replaceAll("Lib:"+oldVersionName,"Lib:"+newVersionName)
 
         configFile.write(text)
+
+        File gradleFile = new File("gradle.properties")
+        String gradleText = gradleFile.text
+        String text2 = gradleText.replace("TestVersion = "+oldVersionName,"TestVersion = "+newVersionName)
+
+
+        gradleFile.write(text2)
         println("升级版本号完成，versionName = "+newVersionName)
     }
 }
